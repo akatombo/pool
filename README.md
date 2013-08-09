@@ -1,4 +1,4 @@
-object-pool
-===========
+component-slake-skeleton
+========================
 
-instance pool container
+use slake for task manager
