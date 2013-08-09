@@ -8,7 +8,7 @@ function ObjectPool (ctor, options) {
 	this.ctor = ctor;
 	this.pool = [];
 	
-	this._length = options.length || Infinity;
+	this._length = options.length || Number.MAX_VALUE;
 	this.onAcquire = options.onAcquire || null;
 	this.onRelease = options.onRelease || null;
 }

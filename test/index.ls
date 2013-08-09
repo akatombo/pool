@@ -22,12 +22,12 @@ describe "new ObjectPool(ctor, options)" (...) !->
 		op = new ObjectPool Foo
 		op.ctor.should.be.equal Foo
 
-	it "default options are null for callbacks and Infinity for length" !->
+	it "default options are null for callbacks and js max int value for length" !->
 		op = new ObjectPool Foo
 
 		op.should.have.ownProperty 'onAcquire' null
 		op.should.have.ownProperty 'onRelease' null
-		op.length!should.equal Infinity
+		op.length!should.equal Number.MAX_VALUE
 
 	it "options can be overrided" !->
 		onAcquire = -> 'onAcquire'
@@ -103,7 +103,7 @@ describe "new ObjectPool(ctor, options)" (...) !->
 	describe ".length()" (...) !->
 		it "should return defined length" !->
 			op = new ObjectPool Foo
-			op.length!should.be.equal Infinity
+			op.length!should.be.equal Number.MAX_VALUE
 
 			op = new ObjectPool Foo, { length: 10 }
 			op.length!should.be.equal 10
