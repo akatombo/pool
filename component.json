@@ -1,9 +1,13 @@
 {
   "name": "object-pool",
   "repo": "wryk/object-pool",
-  "description": "desc",
-  "version": "0.0.0",
-  "keywords": [],
+  "description": "instance pool container",
+  "version": "0.1.0",
+  "keywords": [
+    "instance",
+    "pool",
+    "container"
+  ],
   "dependencies": {},
   "development": {},
   "license": "MIT",

@@ -1,12 +1,14 @@
+# component-skeleton - 0.1.0
+
 # CONFIGURATION
-COMPONENT_NAME = object-pool
-STANDALONE_VARIABLE = ObjectPool
+COMPONENT_NAME = component-name
+STANDALONE_VARIABLE = ComponentName
 
 DEVELOPEMENT_MODE = true
 MOCHA_REPORTER = spec
 
 
-# TASKS - private access :P
+# TASKS - do not update this :P
 all: build
 
 # build component with defined mode

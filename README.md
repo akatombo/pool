@@ -95,7 +95,7 @@ joe.friends.length; // => 0
   * if newLength is defined, set maximum number of instances and return the object pool
 
 ### .clear()
-  clear all pool entries
+  clear all instances in pool
 
   
 
