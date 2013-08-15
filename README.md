@@ -28,10 +28,10 @@ var myClassInstance = myClassPool.acquire();
 myClassPool.release(myClassInstance);
 
 // Get maximum number of instances
-var maximumNumberOfInstances = myClassPool.length();
+var maximumNumberOfInstances = myClassPool.length;
 
 // Set maximum number of instances
-myClassPool.length(150);
+myClassPool.length = 150;
 
 // Clear instance pool
 myClassPool.clear();
@@ -90,9 +90,8 @@ personPool.release(joe);
 joe.friends.length; // => 0
 ```
 
-### .length([newLength])
-  * if newLength is falsy (basically undefined), return maximum number of instances
-  * if newLength is defined, set maximum number of instances and return the object pool
+### .length
+  max numbers of instances, can be set with an assignement operator
 
 ### .clear()
   clear all instances in pool

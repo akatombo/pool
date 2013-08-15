@@ -27,7 +27,7 @@ describe "new ObjectPool(ctor, options)" (...) !->
 
 		op.should.have.ownProperty 'onAcquire' null
 		op.should.have.ownProperty 'onRelease' null
-		op.length!should.equal Number.MAX_VALUE
+		op.length.should.equal Number.MAX_VALUE
 
 	it "options can be overrided" !->
 		onAcquire = -> 'onAcquire'
@@ -38,7 +38,7 @@ describe "new ObjectPool(ctor, options)" (...) !->
 
 		op.should.have.ownProperty 'onAcquire' onAcquire
 		op.should.have.ownProperty 'onRelease' onRelease
-		op.length!should.equal length
+		op.length.should.equal length
 
 
 
@@ -100,21 +100,21 @@ describe "new ObjectPool(ctor, options)" (...) !->
 
 
 
-	describe ".length()" (...) !->
+	describe ".length" (...) !->
 		it "should return defined length" !->
 			op = new ObjectPool Foo
-			op.length!should.be.equal Number.MAX_VALUE
+			op.length.should.be.equal Number.MAX_VALUE
 
 			op = new ObjectPool Foo, { length: 10 }
-			op.length!should.be.equal 10
+			op.length.should.be.equal 10
 
 
 
-	describe ".length(newLength)" (...) !->
+	describe ".length = newValue" (...) !->
 		it "should set length" !->
 			op = new ObjectPool Foo
-			op.length 15
-			op.length!should.be.equal 15
+			op.length = 15
+			op.length.should.be.equal 15
 		
 
 

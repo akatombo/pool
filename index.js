@@ -1,5 +1,6 @@
 module.exports = ObjectPool;
 
+var properties = require('properties');
 var slice = Array.prototype.slice;
 
 function ObjectPool (ctor, options) {
@@ -39,22 +40,41 @@ ObjectPool.prototype.release = function (instance /*, release args */) {
 	return this;
 };
 
-ObjectPool.prototype.length = function (newLength) {
-	if (!newLength) {
-		return this._length;
-	} else {
-		this._length = newLength;
+// ObjectPool.prototype.length = function (newLength) {
+// 	if (!newLength) {
+// 		return this._length;
+// 	} else {
+// 		this._length = newLength;
 
-		if (newLength < this.pool.length) {
-			this.pool.splice(newLength - 1);
-		}
+// 		if (newLength < this.pool.length) {
+// 			this.pool.splice(newLength - 1);
+// 		}
 
-		return this;
-	}
-};
+// 		return this;
+// 	}
+// };
 
 ObjectPool.prototype.clear = function () {
 	this.pool = [];
 
 	return this;
 };
+
+properties(ObjectPool.prototype)
+	.default({ configurable: true })
+	.property('acquire').value().define()
+	.property('release').value().define()
+	.property('clear').value().define()
+	.property('length')
+		.getter(function () { return this._length; })
+		.setter(function (newLength) {
+			this._length = newLength;
+
+			if (newLength < this.pool.length) {
+				this.pool.splice(newLength - 1);
+			}
+
+			return this;
+		})
+		.define()
+;
