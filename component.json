@@ -2,15 +2,13 @@
   "name": "object-pool",
   "repo": "wryk/object-pool",
   "description": "instance pool container",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "instance",
     "pool",
     "container"
   ],
-  "dependencies": {
-    "wryk/properties": "*"
-  },
+  "dependencies": {},
   "development": {},
   "license": "MIT",
   "main": "index.js",
