@@ -1,63 +1,110 @@
-module.exports = ObjectPool;
+import ObjectProvider from './object-provider';
+export default Pool;
 
-var slice = Array.prototype.slice;
+var objectProvider = new ObjectProvider();
 
-function ObjectPool (ctor, options) {
-	options = options || {};
+/**
+ * @class Pool
+ * @constructor
+ * @param {Object} provider
+ * @param {Number} [max=Number.MAX_VALUE]
+**/
+function Pool (provider, max) {
+	/**
+	 * @property _cache
+	 * @private
+	 * @type {Array}
+	 * @default []
+	**/
+	this._cache = [];
 
-	this.ctor = ctor;
-	this.pool = [];
-	
-	this._length = options.length || Number.MAX_VALUE;
-	this.onAcquire = options.onAcquire || null;
-	this.onRelease = options.onRelease || null;
+	/**
+	 * @property _cache
+	 * @private
+	 * @type {Object}
+	 * @default new ObjectProvider()
+	**/
+	this._provider = provider || objectProvider;
+
+	/**
+	 * @property _max
+	 * @private
+	 * @type {Number}
+	 * @default Number.MAX_VALUE
+	**/
+	this._max = typeof max === 'number' ? max : Number.MAX_VALUE;
 }
 
-ObjectPool.prototype.acquire = function (/* acquire args */) {
-	var instance;
-
-	if (this.pool.length < 1) {
-		instance = new this.ctor();
-	} else {
-		instance = this.pool.pop();
-	}
-
-	if (this.onAcquire) {
-		this.onAcquire.apply(instance, arguments);
-	}
-
-	return instance;
-};
-
-ObjectPool.prototype.release = function (instance /*, release args */) {
-	this.pool.push(instance);
-
-	if (this.onRelease) {
-		this.onRelease.apply(instance, slice.call(arguments, 1));
-	}
-
-	return this;
-};
-
-ObjectPool.prototype.clear = function () {
-	this.pool = [];
-
-	return this;
-};
-
-Object.defineProperty(ObjectPool.prototype, 'length', {
-	configurable: true,
+/**
+ * @property max
+ * @type {Number}
+ * @default Number.MAX_VALUE
+ */
+Object.defineProperty(Pool.prototype, 'max', {
 	get: function () {
-		return this._length;
+		return this._max;
 	},
-
-	set: function (newLength) {
-		this._length = newLength;
-
-		if (newLength < this.pool.length) {
-			this.pool.splice(newLength - 1);
-		}
-
-		return this;
+	set: function (value) {
+		this._max = value;
+		this._cache.splice(this._cache.length, this._cache.length - thix._max);
 	}
 });
+
+/**
+ * @property size
+ * @type {Number}
+ * @default 0
+ */
+Object.defineProperty(Pool.prototype, 'size', {
+	get: function () {
+		return this._cache.length;
+	}
+});
+
+/**
+ * @method acquire
+ * @param {any} [argument]*
+ * @return {Object}
+**/
+Pool.prototype.acquire = function () {
+	return this._cache.length === 0 ?
+		this._provider.acquire.apply(this._provider, arguments) :
+		this._cache.pop();
+};
+
+/**
+ * @method release
+ * @param {Object} instance
+ * @param {any} [argument]*
+ * @return {Pool}
+**/
+Pool.prototype.release = function (instance) {
+	if (this._cache.length !== this._max && !~this._cache.indexOf(instance)) {
+		this._provider.release.apply(this._provider, arguments);
+		this._cache.push(instance);
+	}
+
+	return this;
+};
+
+/**
+ * @method clear
+ * @return {Pool}
+**/
+Pool.prototype.clear = function () {
+	this._cache.splice(0);
+
+	return this;
+};
+
+/**
+ * @method fill
+ * @return {Pool}
+**/
+Pool.prototype.fill = function () {
+	for (i = this._cache.length - 1, l = this._max; ++i < l;) {
+		this._cache.push(this._provider.acquire.apply(this._provider, arguments));
+	}
+
+	return this;
+};

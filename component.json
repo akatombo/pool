@@ -1,6 +1,6 @@
 {
-  "name": "object-pool",
-  "repo": "wryk/object-pool",
+  "name": "pool",
+  "repository": "akatombo/pool",
   "description": "instance pool container",
   "version": "0.2.1",
   "keywords": [
@@ -8,11 +8,10 @@
     "pool",
     "container"
   ],
-  "dependencies": {},
-  "development": {},
-  "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js"
-  ]
+    "index.js",
+    "object-provider.js"
+  ],
+  "license": "MIT"
 }

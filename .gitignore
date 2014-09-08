@@ -1,3 +1,5 @@
-components
+*.log
+
 build
+components
 node_modules
